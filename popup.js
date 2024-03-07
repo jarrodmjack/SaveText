@@ -3,7 +3,6 @@
 const fetchData = async () => {
     // get texts from chrome and insert into document
     const savedTexts = await chrome.storage.sync.get(['savedtexts'])
-    console.log('savedTextsObj: ', savedTexts)
     displayTexts(savedTexts.savedtexts)
 }
 fetchData()
@@ -54,46 +53,38 @@ const handleDeleteTextObj = async (id) => {
 }
 
 const handleUpdateTextObj = async (id) => {
-    console.log('id to be updated: ', id)
-
     const editModal = document.createElement('div')
     editModal.setAttribute('class', 'edit-saved-text-modal')
 
     const mainContainer = document.querySelector('.main-container')
-    console.log('main container: ', mainContainer)
     mainContainer.appendChild(editModal)
+
+    const allTexts = await chrome.storage.sync.get(['savedtexts'])
+    const textObjToUpdate = allTexts.savedtexts.filter(
+        (textObj) => textObj.id === id
+    )[0]
+
+    const editTextArea = document.createElement('textarea')
+    editTextArea.value = textObjToUpdate.text
+    editModal.appendChild(editTextArea)
+
+    const submitChangesBtn = document.createElement('button')
+    submitChangesBtn.innerText = 'Submit'
+    submitChangesBtn.addEventListener('click', async () => {
+        textObjToUpdate.text = editTextArea.value
+        await chrome.storage.sync.set({
+            savedtexts: [
+                textObjToUpdate,
+                ...allTexts.savedtexts.filter((textObj) => textObj.id !== id),
+            ],
+        })
+        editModal.remove()
+        let allTextsContainer = document.querySelector('.all-texts-container')
+        allTextsContainer.innerHTML = ""
+        fetchData()
+    })
+    editModal.appendChild(submitChangesBtn)
 }
-
-// const handleUpdateTextObj = async (id) => {
-//     const allTexts = await chrome.storage.sync.get(['savedtexts'])
-//     // console.log('ID TO UPDATE: ', id)
-//     // console.log('text obj')
-//     const textObjToUpdate = allTexts.savedtexts.filter(textObj => textObj.id === id)[0]
-
-//     const textContainer = document.getElementById(id)
-//     textContainer.innerHTML = ""
-
-//     const editTextContainer = document.createElement('div')
-//     editTextContainer.setAttribute('class', 'edit-text-container')
-
-//     const editTextArea = document.createElement('textarea')
-//     editTextArea.setAttribute('id', `textarea-${id}`)
-//     editTextArea.value = textObjToUpdate.text
-
-//     const finishEditingBtn = document.createElement('button')
-//     finishEditingBtn.innerText = "Finish"
-//     finishEditingBtn.addEventListener('click', () => submitUpdatedText(id, text))
-
-//     editTextContainer.appendChild(editTextArea)
-//     editTextContainer.appendChild(finishEditingBtn)
-//     textContainer.appendChild(editTextContainer)
-
-// }
-
-// const submitUpdatedText = (id) => {
-//     // console.log('Submit this change')
-//     const editTextArea = document.getElementById(`textarea-${id}`)
-// }
 
 // chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 //     if (message.action === 'updateTexts') {
