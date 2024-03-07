@@ -19,6 +19,9 @@ const displayTexts = (textsArr) => {
         textElement.setAttribute('id', textObj.id)
         textElement.innerText = textObj.text
 
+        const btnContainer = document.createElement('div')
+        btnContainer.setAttribute('class', 'btn-container')
+
         const deleteBtn = document.createElement('button')
         deleteBtn.innerText = 'DEL' // this will become an icon eventually
         deleteBtn.addEventListener('click', () =>
@@ -31,9 +34,10 @@ const displayTexts = (textsArr) => {
             handleUpdateTextObj(textObj.id)
         )
 
+        btnContainer.appendChild(updateBtn)
+        btnContainer.appendChild(deleteBtn)
         textContainer.appendChild(textElement)
-        textContainer.appendChild(updateBtn)
-        textContainer.appendChild(deleteBtn)
+        textContainer.appendChild(btnContainer)
         allTextsContainer.appendChild(textContainer)
     }
 }
@@ -49,12 +53,23 @@ const handleDeleteTextObj = async (id) => {
     fetchData()
 }
 
+const handleUpdateTextObj = async (id) => {
+    console.log('id to be updated: ', id)
+
+    const editModal = document.createElement('div')
+    editModal.setAttribute('class', 'edit-saved-text-modal')
+
+    const mainContainer = document.querySelector('.main-container')
+    console.log('main container: ', mainContainer)
+    mainContainer.appendChild(editModal)
+}
+
 // const handleUpdateTextObj = async (id) => {
 //     const allTexts = await chrome.storage.sync.get(['savedtexts'])
 //     // console.log('ID TO UPDATE: ', id)
 //     // console.log('text obj')
 //     const textObjToUpdate = allTexts.savedtexts.filter(textObj => textObj.id === id)[0]
-    
+
 //     const textContainer = document.getElementById(id)
 //     textContainer.innerHTML = ""
 
