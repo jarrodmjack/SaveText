@@ -1,0 +1,20 @@
+{
+    "name": "Save Text!",
+    "description": "Saving text snippets",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": ["storage", "tabs", "contextMenus"],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_title": "Save Text!",
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {   
+            "matches": ["https://*/"],
+            "js": ["contentScript.js"]
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+.title {
+    font-size: 24px;
+}
+
+.main-container {
+    padding: 10px;
+}
+
+.all-texts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 400px;
+    width: 350px;
+    overflow-y: auto;
+}
+
+.text-container {
+    border: 2px solid black;
+    padding: 4px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
