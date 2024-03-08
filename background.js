@@ -11,9 +11,6 @@ const saveText = async (selection) => {
         // first time adding a text
         const textArray = [newTextObject]
         await chrome.storage.sync.set({ savedtexts: textArray })
-        const newTextsObjAfterSaving = await chrome.storage.sync.get([
-            'savedtexts',
-        ])
     } else {
         //add the new text object to the already existing array of saved texts
         const textArray = [...currentTexts.savedtexts, newTextObject]
