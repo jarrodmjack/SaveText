@@ -1,10 +1,8 @@
-// ;(() => {
-//     console.log('HIT CONTENT SCRIPT')
-//     const fetchData = async () => {
-//         console.log('HIT FETCH')
-//         const savedVal = await chrome.storage.sync.remove(['tacocat'])
-//         console.log('saved val: ', savedVal)
-//     }
-
-//     // fetchData()
-// })()
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (request.action === 'insertHTML') {
+        // Assuming request.html contains the HTML string to be inserted
+        const div = document.createElement('div')
+        div.innerHTML = request.html
+        document.body.appendChild(div)
+    }
+})

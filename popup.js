@@ -80,11 +80,14 @@ const handleUpdateTextObj = async (id) => {
         })
         editModal.remove()
         let allTextsContainer = document.querySelector('.all-texts-container')
-        allTextsContainer.innerHTML = ""
+        allTextsContainer.innerHTML = ''
         fetchData()
     })
     editModal.appendChild(submitChangesBtn)
 }
+
+// add an event listener to a button
+// button click finds my open tab with 8-fold (localhost for now) and if that exists, injects the HTML into the editor?
 
 // chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 //     if (message.action === 'updateTexts') {
