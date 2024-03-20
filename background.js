@@ -38,7 +38,20 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
                 }
 
                 // At this point, all are being stored in chrome storage
-                chrome.runtime.sendMessage({ action: 'updateTexts' })
+                // chrome.runtime.sendMessage({ action: 'updateTexts' })
+                // chrome.tabs.sendMessage({ action: 'tacos' })
+                ;(async () => {
+                    const [tab] = await chrome.tabs.query({
+                        active: true,
+                        lastFocusedWindow: true,
+                    })
+                    const response = await chrome.tabs.sendMessage(tab.id, {
+                        greeting: 'hello',
+                        action: 'saveText',
+                    })
+                    // do something with response here, not outside the function
+                    console.log(response)
+                })()
             }
         )
     }
